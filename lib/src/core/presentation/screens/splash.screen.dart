@@ -9,23 +9,32 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = HelperFunctions.isDarkMode(context);
     Future.delayed(const Duration(seconds: 3)).then((value) {
       Future.microtask(() => Navigator.pushNamedAndRemoveUntil(
         context, RouteConstants.menuScreen, (route) => false,
       ));
     });
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
+      backgroundColor: Colors.transparent,
+      body: Container(
+        height: HelperFunctions.screenHeight(context),
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: AppColors.gradientBackgroundColor,
+          ),
+        ),
+        child: Center(
+          child: Text(
             AppStrings.brandName,
-            style: Theme.of(context).textTheme.displaySmall?.copyWith(
-              color: isDark ? AppColors.white : AppColors.black
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.displayLarge?.copyWith(
+              fontWeight: FontWeight.w900,
+              color: AppColors.white
             ),
           ),
-        ],
+        ),
       ),
     );
   }

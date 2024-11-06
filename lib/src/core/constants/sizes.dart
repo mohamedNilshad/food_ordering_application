@@ -35,8 +35,9 @@ class Sizes {
 
   ///Border radius
   static const double borderRadiusSm = 4.0;
-  static const double borderRadiusMd = 8.0;
+  static const double borderRadiusMd = 10.0;
   static const double borderRadiusLg = 12.0;
+  static const double borderRadiusXl = 24.0;
 
   ///Divider height
   static const double dividerHeight = 1.0;
@@ -61,5 +62,5 @@ class Sizes {
   static const double imageCarouselHeight = 200.0;
 
   ///Grid view spacing
-  static const double gridViewSpacing = 16.0;
+  static const double gridViewSpacing = 8.0;
 }

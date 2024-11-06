@@ -16,15 +16,15 @@ class CTextFieldTheme{
     floatingLabelStyle: const TextStyle().copyWith(color: AppColors.black.withOpacity(0.8)),
     border: const OutlineInputBorder().copyWith(
       borderRadius: BorderRadius.circular(14),
-      borderSide: const BorderSide(width: 1, color: AppColors.grey),
+      borderSide: const BorderSide(width: 1, color: AppColors.black),
     ),
     enabledBorder: const OutlineInputBorder().copyWith(
       borderRadius: BorderRadius.circular(14),
-      borderSide: const BorderSide(width: 1, color: AppColors.grey),
+      borderSide: const BorderSide(width: 1, color: AppColors.black),
     ),
     focusedBorder: const OutlineInputBorder().copyWith(
       borderRadius: BorderRadius.circular(14),
-      borderSide: const BorderSide(width: 1, color: Colors.black12),
+      borderSide: const BorderSide(width: 1, color: AppColors.primary),
     ),
     errorBorder: const OutlineInputBorder().copyWith(
       borderRadius: BorderRadius.circular(14),

@@ -7,7 +7,7 @@ import 'package:foa/src/core/theme/theme.dart';
 import 'package:foa/src/core/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:foa/src/feaure/manu/presentation/providers/menu.provider.dart';
+import 'package:foa/src/features/manu/presentation/providers/menu.provider.dart';
 import 'package:provider/provider.dart';
 
 class App extends StatefulWidget {
@@ -48,7 +48,7 @@ class _AppState extends State<App> {
                     debugShowCheckedModeBanner: false,
                     navigatorKey: App.navigatorKey,
                     title: 'Food Ordering Application',
-                    theme: AppTheme.darkTheme,
+                    theme: AppTheme.lightTheme,
                     darkTheme: AppTheme.darkTheme,
                     themeMode: provider.themeMode,
                     initialRoute: RouteConstants.splashScreen,

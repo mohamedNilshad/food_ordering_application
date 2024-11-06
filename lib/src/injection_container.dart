@@ -1,7 +1,7 @@
 
 import 'package:foa/src/core/data/datasources/local/storage.helper.dart';
 import 'package:foa/src/core/provider/theme.provider.dart';
-import 'package:foa/src/feaure/manu/presentation/providers/menu.provider.dart';
+import 'package:foa/src/features/manu/presentation/providers/menu.provider.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

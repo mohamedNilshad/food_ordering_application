@@ -6,7 +6,7 @@ class CTextTheme{
 
   ///Light Text Theme
   static TextTheme lightTextTheme = TextTheme(
-    headlineLarge: const TextStyle().copyWith(fontSize: 32.0, fontWeight: FontWeight.bold, color: AppColors.black),
+    headlineLarge: const TextStyle().copyWith(fontSize: 32.0, fontWeight: FontWeight.w700, color: AppColors.black),
     headlineMedium: const TextStyle().copyWith(fontSize: 24.0, fontWeight: FontWeight.w600, color: AppColors.black),
     headlineSmall: const TextStyle().copyWith(fontSize: 18.0, fontWeight: FontWeight.w600, color: AppColors.black),
 
@@ -24,7 +24,7 @@ class CTextTheme{
 
   ///Dark Text Theme
   static TextTheme darkTextTheme = TextTheme(
-    headlineLarge: const TextStyle().copyWith(fontSize: 32.0, fontWeight: FontWeight.bold, color: AppColors.white),
+    headlineLarge: const TextStyle().copyWith(fontSize: 32.0, fontWeight: FontWeight.w700, color: AppColors.white),
     headlineMedium: const TextStyle().copyWith(fontSize: 24.0, fontWeight: FontWeight.w600, color: AppColors.white),
     headlineSmall: const TextStyle().copyWith(fontSize: 18.0, fontWeight: FontWeight.w600, color: AppColors.white),
 

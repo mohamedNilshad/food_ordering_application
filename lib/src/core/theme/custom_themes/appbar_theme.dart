@@ -9,11 +9,11 @@ class CAppBarTheme{
     elevation: 0,
     centerTitle: false,
     scrolledUnderElevation: 0,
-    backgroundColor: Colors.transparent,
+    backgroundColor: AppColors.primary,
     surfaceTintColor: Colors.transparent,
     iconTheme: IconThemeData(color: AppColors.black, size: 24.0),
     actionsIconTheme: IconThemeData(color: AppColors.black, size: 24.0),
-    titleTextStyle: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600, color: AppColors.black),
+    titleTextStyle: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600, color: AppColors.white),
   );
 
   ///dark theme
@@ -21,7 +21,7 @@ class CAppBarTheme{
     elevation: 0,
     centerTitle: false,
     scrolledUnderElevation: 0,
-    backgroundColor: Colors.transparent,
+    backgroundColor: AppColors.primary,
     surfaceTintColor: Colors.transparent,
     iconTheme: IconThemeData(color: AppColors.white, size: 24.0),
     actionsIconTheme: IconThemeData(color: AppColors.white, size: 24.0),

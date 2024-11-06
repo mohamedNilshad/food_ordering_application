@@ -2,7 +2,7 @@ import 'package:foa/src/core/presentation/screens/splash.screen.dart';
 import 'package:foa/src/core/presentation/screens/unknown.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:foa/src/core/router/route.constants.dart';
-import 'package:foa/src/feaure/manu/presentation/screens/menu.screen.dart';
+import 'package:foa/src/features/manu/presentation/screens/menu.screen.dart';
 
 class AppRouter {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -20,7 +20,7 @@ class AppRouter {
         return MaterialPageRoute(
           settings: const RouteSettings(name: RouteConstants.menuScreen),
           builder: (context) {
-            return const MenuScreen();
+            return const HomeScreen();
           },
         );
     }

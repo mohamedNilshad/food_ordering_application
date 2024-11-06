@@ -1,5 +1,6 @@
 
 class ImageStrings {
-
-  static const String appLogo = "assets/logos/logo.png";
+  static const String defaultMenu = "assets/images/default_food_menu.png";
+  static const String shopImage = "assets/images/shop.png";
+  static const String logoImage = "assets/images/logo.png";
 }

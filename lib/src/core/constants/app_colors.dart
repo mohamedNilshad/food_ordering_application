@@ -18,12 +18,22 @@ class AppColors {
       ]
   );
 
+  ///Gradient Colors
+  static Gradient overLayerGradient = LinearGradient(
+      begin: Alignment.bottomCenter,  // Start at the bottom
+      end: Alignment.topCenter,
+      colors: [
+        Colors.black,
+        Colors.black.withOpacity(0),
+      ]
+  );
+
   static const List<Color> gradientBackgroundColor = [
-    Color(0xFF1f32f6), // Start color
-    Color(0xFF6052ff), // 2nd color
-    Color(0xFF8d72ff), // 3rd color
-    Color(0xFFb894ff), // 4th color
-    Color(0xFFe1b7ff), // End color
+    Color(0xFF1CAE81), // Start color
+    Color(0xFF32944c), // 2nd color
+    Color(0xFF48cf6c), // 3rd color
+    Color(0xFF32944c),  // 4th color
+    Color(0xFF77d48f), // End color
   ];
 
   /// Text Colors
@@ -52,10 +62,12 @@ class AppColors {
   static const Color buttonGreen = Color(0xFF139c40);
   static const Color buttonSecondary = Color(0xFF6C7570);
   static const Color buttonDisabled = Color(0xFF939393);
+  static const Color selectedTabColor = Color(0xFFEBEFF8);
 
   /// Border Colors
   static const Color borderPrimary = Color(0xFF090909);
   static const Color borderSecondary = Color(0xFFE6E6E6);
+  static const Color borderGrey = Color(0xFFE8E8E8);
 
   /// Error and Validation Colors
   static const Color error = Color(0xFFD32F2F);
