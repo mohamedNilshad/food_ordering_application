@@ -13,6 +13,7 @@ class AppStrings {
   static const String allLabel = 'All';
   static const String searchLabel = 'Search';
   static const String okLabel = "OK";
+  static const String doneLabel = "Done";
   static const String cancelLabel = 'Cancel';
   static const String closeLabel = 'Close';
   static const String saveLabel = 'Save';
@@ -23,4 +24,5 @@ class AppStrings {
 
   ///related
   static const String foodMenuListLabel = 'Food Menu List';
+  static const String selectMenuLabel = 'Select menu';
 }

@@ -20,7 +20,7 @@ class Sizes {
   static const double fontSizeLg = 18.0;
 
   ///Button sizes
-  static const double buttonHeight = 18.0;
+  static const double buttonHeight = 48.0;
   static const double buttonWidth = 120.0;
   static const double buttonRadius = 12.0;
   static const double buttonElevation = 4.0;
@@ -38,6 +38,7 @@ class Sizes {
   static const double borderRadiusMd = 10.0;
   static const double borderRadiusLg = 12.0;
   static const double borderRadiusXl = 24.0;
+  static const double borderRadiusXXl = 32.0;
 
   ///Divider height
   static const double dividerHeight = 1.0;
