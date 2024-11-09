@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:foa/src/core/constants/app_colors.dart';
 import 'package:foa/src/core/constants/app_strings.dart';
+import 'package:intl/intl.dart';
 
 class HelperFunctions {
 
@@ -117,6 +118,20 @@ class HelperFunctions {
     } on SocketException catch (_){
       return false;
     }
+  }
+
+  static String getToday() {
+    DateTime now = DateTime.now();
+    int weekday = now.weekday;
+
+    List<String> days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    return  days[weekday - 1].toLowerCase();
+  }
+
+  static String convertToAMPM(String time) {
+    DateTime dateTime = DateFormat('HH:mm').parse(time);
+    return DateFormat('h:mm a').format(dateTime);
+
   }
 
   static bool isIOS(){

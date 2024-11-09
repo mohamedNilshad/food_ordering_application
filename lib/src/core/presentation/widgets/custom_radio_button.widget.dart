@@ -25,7 +25,7 @@ class CRadioButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => onChanged(!isSelected),
+      onTap: () => onChanged(!isSelected, ),
       child: ListTile(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(Sizes.sm),

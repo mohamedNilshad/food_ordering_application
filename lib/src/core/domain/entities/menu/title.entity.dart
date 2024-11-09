@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'title.entity.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.pascal)
+@JsonSerializable(fieldRename: FieldRename.none)
 class Title extends Equatable {
   final String? en;
 

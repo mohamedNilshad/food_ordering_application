@@ -7,6 +7,7 @@ part 'menu.entity.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.pascal)
 class Menu extends Equatable {
+  @JsonKey(name: 'ID')
   final String? id;
   final String? menuID;
   final String? verticalID;
