@@ -4,6 +4,7 @@ import 'package:foa/src/core/constants/icon_strings.dart';
 import 'package:foa/src/core/constants/sizes.dart';
 import 'package:foa/src/core/domain/entities/menu/menu.entity.dart';
 import 'package:foa/src/core/presentation/widgets/svg_icon_builder.widget.dart';
+import 'package:foa/src/core/provider/load_data.provider.dart';
 import 'package:foa/src/core/utils/helpers/helper_functions.dart';
 import 'package:foa/src/features/manu/presentation/providers/menu.provider.dart';
 import 'package:foa/src/features/manu/presentation/screens/widgets/menu_list_bottom_sheet.widget.dart';
@@ -38,7 +39,7 @@ class _TakeawayPageWidgetState extends State<TakeawayPageWidget> {
     _autoScrollController.highlight(index);
   }
 
-  Future<void> _getAllMenu() async {
+  Future<void> _getAllMenu1() async {
 
     if (loadingMenu) return;
     setState(() => loadingMenu = true);
@@ -54,6 +55,22 @@ class _TakeawayPageWidgetState extends State<TakeawayPageWidget> {
           loadingMenu = false;
         });
       });
+    } on Exception {
+      setState(() => loadingMenu = false);
+    }
+  }
+
+  Future<void> _getAllMenu() async {
+
+    if (loadingMenu) return;
+    setState(() => loadingMenu = true);
+    try {
+        setState(() {
+          menu = context.read<LoadDataProvider>().res!.menu!;
+          selectedManuId = menu.first.menuID!;
+          // selectedManu = menu.first.title!.en!;
+          loadingMenu = false;
+        });
     } on Exception {
       setState(() => loadingMenu = false);
     }

@@ -1,5 +1,9 @@
 
+import 'package:foa/src/core/data/datasources/load_data.datasource.dart';
 import 'package:foa/src/core/data/datasources/local/storage.helper.dart';
+import 'package:foa/src/core/data/repositories/load_data.repository.impl.dart';
+import 'package:foa/src/core/domain/usecases/load_data.usecase.dart';
+import 'package:foa/src/core/provider/load_data.provider.dart';
 import 'package:foa/src/core/provider/theme.provider.dart';
 import 'package:foa/src/features/manu/data/datasources/menu.datasource.dart';
 import 'package:foa/src/features/manu/data/repositories/menu.repository.impl.dart';
@@ -31,6 +35,21 @@ Future<void> init() async {
   // Data sources
   sl.registerLazySingleton<MenuDataSourceImpl>(() => MenuDataSourceImpl());
 
+
+  ///! Features - result ---------------------------------------------->
+  /// ------------------------------------------------------------------------->
+  // Provider
+  sl.registerLazySingleton(() => LoadDataProvider());
+
+  // Use Case
+  sl.registerLazySingleton(() => LoadDataUsecase(sl()));
+
+  // Repository
+  sl.registerLazySingleton<LoadDataRepositoryImpl>(
+          () => LoadDataRepositoryImpl(dataSource: sl()));
+
+  // Data sources
+  sl.registerLazySingleton<LoadDataSourceImpl>(() => LoadDataSourceImpl());
 
   ///! Features - Client Connection-------------------------------------------->
   /// ------------------------------------------------------------------------->

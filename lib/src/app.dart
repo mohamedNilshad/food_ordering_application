@@ -1,5 +1,6 @@
 
 import 'package:foa/src/core/presentation/base.view.dart';
+import 'package:foa/src/core/provider/load_data.provider.dart';
 import 'package:foa/src/core/provider/theme.provider.dart';
 import 'package:foa/src/core/router/route.constants.dart';
 import 'package:foa/src/core/router/route.dart';
@@ -38,6 +39,7 @@ class _AppState extends State<App> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<MenuProvider>(create: (_) => MenuProvider()),
+        ChangeNotifierProvider<LoadDataProvider>(create: (_) => LoadDataProvider()),
       ],
       child: BaseView<ThemeProvider>(
           onModelReady:(model) => model.themeMode,

@@ -1,15 +1,15 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'menu.entity.dart';
+part of 'category.entity.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Menu _$MenuFromJson(Map<String, dynamic> json) => Menu(
+Category _$CategoryFromJson(Map<String, dynamic> json) => Category(
       id: json['ID'] as String?,
+      menuCategoryID: json['MenuCategoryID'] as String?,
       menuID: json['MenuID'] as String?,
-      verticalID: json['VerticalID'] as String?,
       storeID: json['StoreID'] as String?,
       title: json['Title'] == null
           ? null
@@ -17,13 +17,8 @@ Menu _$MenuFromJson(Map<String, dynamic> json) => Menu(
       subTitle: json['SubTitle'] == null
           ? null
           : SubTitle.fromJson(json['SubTitle'] as Map<String, dynamic>),
-      description: json['Description'] as String?,
-      menuAvailability: json['MenuAvailability'] == null
-          ? null
-          : MenuAvailability.fromJson(
-              json['MenuAvailability'] as Map<String, dynamic>),
-      menuCategoryIDs: (json['MenuCategoryIDs'] as List<dynamic>?)
-          ?.map((e) => e as String)
+      menuEntities: (json['MenuEntities'] as List<dynamic>?)
+          ?.map((e) => MenuEntities.fromJson(e as Map<String, dynamic>))
           .toList(),
       createdDate: json['CreatedDate'] == null
           ? null
@@ -35,16 +30,14 @@ Menu _$MenuFromJson(Map<String, dynamic> json) => Menu(
       modifiedBy: json['ModifiedBy'] as String?,
     );
 
-Map<String, dynamic> _$MenuToJson(Menu instance) => <String, dynamic>{
+Map<String, dynamic> _$CategoryToJson(Category instance) => <String, dynamic>{
       'ID': instance.id,
+      'MenuCategoryID': instance.menuCategoryID,
       'MenuID': instance.menuID,
-      'VerticalID': instance.verticalID,
       'StoreID': instance.storeID,
       'Title': instance.title,
       'SubTitle': instance.subTitle,
-      'Description': instance.description,
-      'MenuAvailability': instance.menuAvailability,
-      'MenuCategoryIDs': instance.menuCategoryIDs,
+      'MenuEntities': instance.menuEntities,
       'CreatedDate': instance.createdDate?.toIso8601String(),
       'ModifiedDate': instance.modifiedDate?.toIso8601String(),
       'CreatedBy': instance.createdBy,
