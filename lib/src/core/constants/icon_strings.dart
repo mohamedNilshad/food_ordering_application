@@ -6,5 +6,7 @@ class IconStrings {
   static const String searchIcon = "assets/icons/search.svg";
   static const String arrowDownIcon = "assets/icons/arrow_down.svg";
   static const String closeIcon = "assets/icons/close.svg";
+  static const String starIcon = "assets/icons/star.svg";
+  static const String locationIcon = "assets/icons/location.svg";
 
 }

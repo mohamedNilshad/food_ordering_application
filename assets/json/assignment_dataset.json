@@ -43,6 +43,7 @@
           }
         },
         "MenuCategoryIDs": [
+          "660fa76f3d3057dded1d0015-HOT MAINS",
           "660fa76f3d3057dded1d0011-MEAL DEALS"
         ],
         "CreatedDate": "0001-01-01T00:00:00Z",
@@ -3146,7 +3147,8 @@
           }
         },
         "CategoryIDs": [
-          "660fa76f3d3057dded1d0015-HOT MAINS"
+          "660fa76f3d3057dded1d0015-HOT MAINS",
+          "660fa76f3d3057dded1d0011-MEAL DEALS"
         ],
         "Allergens": [],
         "MetaData": {

@@ -10,6 +10,7 @@ class AppStrings {
 
   ///Common
   static const String viewAllLabel = 'View All';
+  static const String seeMoreLabel = 'See more';
   static const String allLabel = 'All';
   static const String searchLabel = 'Search';
   static const String okLabel = "OK";
@@ -25,4 +26,6 @@ class AppStrings {
   ///related
   static const String foodMenuListLabel = 'Food Menu List';
   static const String selectMenuLabel = 'Select menu';
+  static const String viewBasketLabel = 'View Basket';
+  static const String addCommentsLabel = 'Add Comments (Optional)';
 }

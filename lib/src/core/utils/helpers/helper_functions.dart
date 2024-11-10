@@ -134,6 +134,11 @@ class HelperFunctions {
 
   }
 
+  static String formatCurrency(double amount) {
+    final NumberFormat currencyFormatter = NumberFormat.currency(locale: 'en_US', symbol: '\$');
+    return currencyFormatter.format(amount);
+  }
+
   static bool isIOS(){
     return Platform.isIOS;
   }
@@ -145,10 +150,5 @@ class HelperFunctions {
   static List<T> removeDuplicates<T>(List<T> list){
     return list.toSet().toList();
   }
-
-
-
-
-
 
 }

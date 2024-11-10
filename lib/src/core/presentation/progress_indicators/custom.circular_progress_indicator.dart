@@ -9,11 +9,13 @@ class CCircularProgressIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: radius,
-      width: radius,
-      alignment: Alignment.center,
-      child: CircularProgressIndicator(color: color),
+    return Center(
+      child: Container(
+        height: radius,
+        width: radius,
+        alignment: Alignment.center,
+        child: CircularProgressIndicator(color: color),
+      ),
     );
   }
 }

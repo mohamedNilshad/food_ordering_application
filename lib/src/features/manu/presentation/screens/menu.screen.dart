@@ -8,7 +8,6 @@ import 'package:foa/src/core/utils/helpers/helper_functions.dart';
 import 'package:foa/src/features/manu/presentation/screens/widgets/delivery_page.widget.dart';
 import 'package:foa/src/features/manu/presentation/screens/widgets/restaurant_page.widget.dart';
 import 'package:foa/src/features/manu/presentation/screens/widgets/takeaway_page.widget.dart';
-import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -61,13 +60,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = HelperFunctions.isDarkMode(context);
     double screenWidth = HelperFunctions.screenWidth(context);
     double screenHeight = HelperFunctions.screenHeight(context);
 
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
+          physics: const ScrollPhysics(),
           child: Column(
             children: [
               Stack(
@@ -89,44 +88,27 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ),
                   ),
                   Positioned(
-                    top: 90.0,
+                    top: 87.0,
                     child: Container(
                       width: screenWidth,
                       padding: const EdgeInsets.symmetric(horizontal: Sizes.lg),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'El Cabanyal',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headlineLarge
-                                    ?.copyWith(
-                                      color: AppColors.white,
-                                    ),
-                              ),
-                              Text(
-                                'FASTFOOD · BURGERS',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.copyWith(
-                                      color: AppColors.white,
-                                    ),
-                              ),
-                            ],
+                      child: ListTile(
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 0),
+                        titleTextStyle: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                          color: AppColors.white,
+                        ),
+                        subtitleTextStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: AppColors.white,
+                        ),
+                        title: const Text('El Cabanyal'),
+                        subtitle: const Text('FASTFOOD · BURGERS'),
+                        trailing: const ClipOval(
+                          clipBehavior: Clip.hardEdge,
+                          child: Image(
+                            image: AssetImage(ImageStrings.logoImage),
+                            fit: BoxFit.fill,
                           ),
-                          const ClipOval(
-                            clipBehavior: Clip.hardEdge,
-                            child: Image(
-                              image: AssetImage(ImageStrings.logoImage),
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
