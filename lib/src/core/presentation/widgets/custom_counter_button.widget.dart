@@ -3,7 +3,8 @@ import 'package:foa/src/core/constants/app_colors.dart';
 import 'package:foa/src/core/constants/sizes.dart';
 
 class CCounterButton extends StatelessWidget {
-  final int count;
+  final double count;
+  final int quantity;
   final EdgeInsets buttonPadding;
   final EdgeInsets labelPadding;
   final double fontSize;
@@ -13,8 +14,9 @@ class CCounterButton extends StatelessWidget {
   const CCounterButton({
     super.key,
     required this.count,
-    this.buttonPadding = const EdgeInsets.symmetric(vertical: Sizes.md, horizontal: Sizes.lg),
-    this.labelPadding = const EdgeInsets.symmetric(horizontal: Sizes.lg),
+    required this.quantity,
+    this.buttonPadding = const EdgeInsets.symmetric(vertical: 14.0, horizontal: Sizes.md),
+    this.labelPadding = const EdgeInsets.symmetric(horizontal: Sizes.sm),
     this.fontSize = 16.0,
     required this.onIncrease,
     required this.onDecrease,
@@ -38,9 +40,11 @@ class CCounterButton extends StatelessWidget {
           Padding(
             padding: labelPadding,
             child: Text(
-              '$count',
+              '$quantity',
+              maxLines: 1,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontSize: fontSize,
+                overflow: TextOverflow.ellipsis,
                 fontWeight: FontWeight.w700,
               ),
             ),

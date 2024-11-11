@@ -15,6 +15,7 @@ import 'package:foa/src/features/manu/presentation/screens/widgets/category_list
 import 'package:foa/src/features/manu/presentation/screens/widgets/ingredients_page.widget.dart';
 import 'package:foa/src/features/manu/presentation/screens/widgets/item_list.widget.dart';
 import 'package:foa/src/features/manu/presentation/screens/widgets/menu_list_bottom_sheet.widget.dart';
+import 'package:foa/src/features/manu/presentation/screens/widgets/nutritional_page.widget.dart';
 import 'package:provider/provider.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
@@ -71,6 +72,7 @@ class _TakeawayPageWidgetState extends State<TakeawayPageWidget> {
               category.first.menuEntities!.any((entity) => entity.id == item.menuItemID)
           ).toList();
           selectedCat = category.first.title!.en!;
+          selectedCatIndex = 0;
           selectedManuId = menu.first.menuID!;
           selectedManu = menu.first.title!.en!;
           loading = false;
@@ -149,120 +151,130 @@ class _TakeawayPageWidgetState extends State<TakeawayPageWidget> {
     screenWidth = HelperFunctions.screenWidth(context);
     screenHeight = HelperFunctions.screenHeight(context);
     return Scaffold(
-      body: Visibility(
-        visible: !loading,
-        replacement: const CCircularProgressIndicator(),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Sizes.sm),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: Sizes.lg),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        GestureDetector(
-                          onTap: (){
-                            _showSelectMenuBottomSheet();
-                            scrollToIndex(selectedManuIndex);
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.fromLTRB(Sizes.md, Sizes.sm, Sizes.sm, Sizes.sm),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(Sizes.sm),
-                              color: AppColors.grey,
-                            ),
-                            child: Row(
-                              children: [
-                                Text(
-                                  selectedManu,
-                                  textWidthBasis: TextWidthBasis.parent,
-                                  softWrap: true,
-                                  overflow: TextOverflow.clip,
-                                  maxLines: 1,
-                                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                      overflow: TextOverflow.clip
+      body: RefreshIndicator(
+        onRefresh: () async {
+          Future.microtask(() => _setDefault());
+          await Future.delayed(const Duration(microseconds: 800));
+        },
+        child: Visibility(
+          visible: !loading,
+          replacement: const CCircularProgressIndicator(),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: Sizes.sm),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: Sizes.lg),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GestureDetector(
+                            onTap: (){
+                              _showSelectMenuBottomSheet();
+                              scrollToIndex(selectedManuIndex);
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.fromLTRB(Sizes.md, Sizes.sm, Sizes.sm, Sizes.sm),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(Sizes.sm),
+                                color: AppColors.grey,
+                              ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    selectedManu,
+                                    textWidthBasis: TextWidthBasis.parent,
+                                    softWrap: true,
+                                    overflow: TextOverflow.clip,
+                                    maxLines: 1,
+                                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                        overflow: TextOverflow.clip
+                                    ),
                                   ),
-                                ),
-                                const CSvgIconBuilder(icon: IconStrings.arrowDownIcon)
-                              ],
+                                  const CSvgIconBuilder(icon: IconStrings.arrowDownIcon)
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        const CSvgIconBuilder(icon: IconStrings.searchIcon)
-                      ],
+                          IconButton(
+                            onPressed: (){},
+                            icon: const CSvgIconBuilder(icon: IconStrings.searchIcon),
+                          )
+                        ],
+                      ),
+                  ),
+                  Container(
+                    height: 32.0,
+                    alignment: Alignment.centerLeft,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: category.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return CategoryList(
+                          index: index,
+                          selectedCatIndex: selectedCatIndex,
+                          title: category[index].title!.en!,
+                          onSelected: (selected) {
+                            if (selected) {
+                              setState(() => selectedCatIndex = index);
+                              Future.microtask(() => _setCatData(index: index));
+                            }
+                          },
+                        );
+                      },
+                      separatorBuilder: (context, index){
+                        return const SizedBox(width: Sizes.sm);
+                      },
                     ),
-                ),
-                Container(
-                  height: 32.0,
-                  alignment: Alignment.centerLeft,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: category.length,
+                  ),
+                  ListView.separated(
+                    scrollDirection: Axis.vertical,
+                    physics: const ScrollPhysics(),
+                    itemCount: menuItems.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
-                      return CategoryList(
+                      return ItemList(
                         index: index,
-                        selectedCatIndex: selectedCatIndex,
-                        title: category[index].title!.en!,
-                        onSelected: (selected) {
-                          if (selected) {
-                            setState(() => selectedCatIndex = index);
-                            Future.microtask(() => _setCatData(index: index));
-                          }
+                        header: index == 0 ? selectedCat : '',
+                        imgURL: menuItems[index].imageURL!, //?? ImageStrings.itemImage,
+                        title: menuItems[index].title!.en!,
+                        subtitle: menuItems[index].description!.en!,
+                        price: menuItems[index].priceInfo!.price!.tablePrice!.toDouble(),
+                        promo: menuItems[index].metaData!.isDealProduct ?? false,
+                        onSelected: (int selectedIndex){
+                          _showCartBottomSheet(index: selectedIndex);
                         },
                       );
                     },
                     separatorBuilder: (context, index){
-                      return const SizedBox(width: Sizes.sm);
+                      return Container(
+                        padding: const EdgeInsets.symmetric(horizontal: Sizes.lg),
+                        child: const Divider(),
+                      );
                     },
                   ),
-                ),
-                ListView.separated(
-                  scrollDirection: Axis.vertical,
-                  physics: const ScrollPhysics(),
-                  itemCount: menuItems.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return ItemList(
-                      index: index,
-                      header: index == 0 ? selectedCat : '',
-                      imgURL: menuItems[index].imageURL!, //?? ImageStrings.itemImage,
-                      title: menuItems[index].title!.en!,
-                      subtitle: menuItems[index].description!.en!,
-                      price: menuItems[index].priceInfo!.price!.tablePrice!.toDouble(),
-                      onSelected: (int selectedIndex){
-                        _showCartBottomSheet(index: selectedIndex);
-                      },
-                    );
-                  },
-                  separatorBuilder: (context, index){
-                    return Container(
-                      padding: const EdgeInsets.symmetric(horizontal: Sizes.lg),
-                      child: const Divider(),
-                    );
-                  },
-                ),
-                const SizedBox(height: Sizes.spaceBtwSections),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                      minimumSize: Size(screenWidth, Sizes.buttonHeight)),
-                  child: const Text('Basket • 3 items • £24.00'),
-                ),
-                const SizedBox(height: Sizes.sm),
-                OutlinedButton(
-                  onPressed: () {},
-                  style: OutlinedButton.styleFrom(
-                    minimumSize: Size(screenWidth, Sizes.buttonHeight),
-                    foregroundColor: AppColors.primary,
+                  const SizedBox(height: Sizes.spaceBtwSections),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: Size(screenWidth, Sizes.buttonHeight)),
+                    child: const Text('Basket • 3 items • £24.00'),
                   ),
-                  child: const Text(AppStrings.viewBasketLabel),
-                ),
-                const SizedBox(height: Sizes.lg),
-              ],
+                  const SizedBox(height: Sizes.sm),
+                  OutlinedButton(
+                    onPressed: () {},
+                    style: OutlinedButton.styleFrom(
+                      minimumSize: Size(screenWidth, Sizes.buttonHeight),
+                      foregroundColor: AppColors.primary,
+                    ),
+                    child: const Text(AppStrings.viewBasketLabel),
+                  ),
+                  const SizedBox(height: Sizes.lg),
+                ],
+              ),
             ),
           ),
         ),
@@ -272,7 +284,7 @@ class _TakeawayPageWidgetState extends State<TakeawayPageWidget> {
 
   void _showCartBottomSheet({required int index}) {
     MenuItem tempMenuItems = menuItems[index];
-
+    double price = tempMenuItems.priceInfo!.price!.tablePrice!.toDouble();
     showModalBottomSheet<void>(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -307,7 +319,9 @@ class _TakeawayPageWidgetState extends State<TakeawayPageWidget> {
                           ),
                           margin: const EdgeInsets.only(bottom: Sizes.sm),
                         ),
-                        const SizedBox(),
+                        const SizedBox(
+                          child: CSvgIconBuilder(icon: IconStrings.closeIcon, color: Colors.transparent),
+                        ),
                       ],
                     ),
                     SizedBox(
@@ -350,7 +364,7 @@ class _TakeawayPageWidgetState extends State<TakeawayPageWidget> {
                                   ),
                                 ),
                                 Text(
-                                  HelperFunctions.formatCurrency(tempMenuItems.priceInfo!.price!.tablePrice!.toDouble()),
+                                  HelperFunctions.formatCurrency(price),
                                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                                     fontSize: 20.0,
                                     fontWeight: FontWeight.w700,
@@ -389,6 +403,7 @@ class _TakeawayPageWidgetState extends State<TakeawayPageWidget> {
                               length: 4,
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   TabBar(
                                     isScrollable: true,
@@ -416,9 +431,17 @@ class _TakeawayPageWidgetState extends State<TakeawayPageWidget> {
                                           ingredientItems: ingredientItems,
                                           menuItem: tempMenuItems,
                                         ),
-                                        const Center(child: Text("Nutritional Page")),
-                                        const Center(child: Text("Instructions Page")),
-                                        const Center(child: Text("Allergies Page")),
+                                        const NutritionalPage(),
+                                        Container(
+                                          padding: const EdgeInsets.only(top: Sizes.lg),
+                                          alignment: Alignment.topCenter,
+                                          child: const Text("Instructions Page"),
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.only(top: Sizes.lg),
+                                          alignment: Alignment.topCenter,
+                                          child: const Text("Allergies Page"),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -454,27 +477,22 @@ class _TakeawayPageWidgetState extends State<TakeawayPageWidget> {
         return StatefulBuilder(
             builder: (BuildContext context, StateSetter bottomSheetSetState) {
             return MenuListBottomSheet(
-                menu: menu,
-                selectedManuId: tSelectedManuId,
-                selectedManuIndex: tSelectedManuIndex,
-                onMenuSelected: (String manuId, int selectedIndex){
-                  setState(() {
-                    tSelectedManuId = manuId;
-                    tSelectedManuIndex = selectedIndex;
-                  });
-                  bottomSheetSetState(() {});
-                },
-                onPressed: (String manuId, String selectedManuItem, int selectedIndex){
-                  setState(() {
-                    // selectedManuId = manuId;
-                    // selectedManuIndex = selectedIndex;
-                    // selectedManu = selectedManuItem;
-                  });
-                  Future.microtask(() => _setManuData(index: selectedIndex));
-                  Navigator.pop(context);
-                  bottomSheetSetState(() {});
-                },
-                autoScrollController: _autoScrollController,
+              menu: menu,
+              selectedManuId: tSelectedManuId,
+              selectedManuIndex: tSelectedManuIndex,
+              onMenuSelected: (String manuId, int selectedIndex){
+                setState(() {
+                  tSelectedManuId = manuId;
+                  tSelectedManuIndex = selectedIndex;
+                });
+                bottomSheetSetState(() {});
+              },
+              onPressed: (String manuId, String selectedManuItem, int selectedIndex){
+                Future.microtask(() => _setManuData(index: selectedIndex));
+                Navigator.pop(context);
+                bottomSheetSetState(() {});
+              },
+              autoScrollController: _autoScrollController,
             );
           }
         );

@@ -3,13 +3,13 @@ import 'package:foa/src/core/constants/app_colors.dart';
 import 'package:foa/src/core/constants/sizes.dart';
 
 class CounterButtonMiniWidget extends StatelessWidget {
-  final int counter;
+  final int quantity;
   final VoidCallback onIncrease;
   final VoidCallback onDecrease;
 
   const CounterButtonMiniWidget({
     super.key,
-    required this.counter,
+    required this.quantity,
     required this.onIncrease,
     required this.onDecrease,
   });
@@ -30,10 +30,11 @@ class CounterButtonMiniWidget extends StatelessWidget {
             child: const Icon(Icons.remove, color: Colors.white, size: 20.0),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Sizes.sm),
+        Container(
+          width: Sizes.lg,
+          alignment: Alignment.center,
           child: Text(
-            counter.toString(),
+            quantity.toString(),
             style: Theme.of(context).textTheme.titleMedium,
           ),
         ),

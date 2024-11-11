@@ -9,12 +9,16 @@ class MetaData extends Equatable {
   final String? productName;
   final String? unitChartID;
   final String? unitChartName;
+  final String? dealProductID;
+  final bool? isDealProduct;
 
   const MetaData({
     required this.productID,
     required this.productName,
     required this.unitChartID,
     required this.unitChartName,
+    this.dealProductID,
+    this.isDealProduct,
   });
 
   factory MetaData.fromJson(Map<String, dynamic> json) => _$MetaDataFromJson(json);
@@ -27,5 +31,7 @@ class MetaData extends Equatable {
     productName,
     unitChartID,
     unitChartName,
+    dealProductID,
+    isDealProduct,
   ];
 }

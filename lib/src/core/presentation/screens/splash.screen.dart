@@ -30,7 +30,6 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    print(context.read<LoadDataProvider>().res);
     Future.microtask(() => _fetchResults());
   }
 

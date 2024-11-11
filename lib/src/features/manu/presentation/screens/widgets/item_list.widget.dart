@@ -12,7 +12,7 @@ class ItemList extends StatelessWidget {
   final String title;
   final String subtitle;
   final double price;
-  final int? promo;
+  final bool promo;
   final Function(int) onSelected;
   const ItemList({
     super.key,
@@ -23,7 +23,7 @@ class ItemList extends StatelessWidget {
     required this.subtitle,
     required this.price,
     required this.onSelected,
-    this.promo,
+    required this.promo,
   });
 
   @override
@@ -82,7 +82,7 @@ class ItemList extends StatelessWidget {
                         color: AppColors.primary
                       ),
                     ),
-                    if(promo != null)
+                    if(promo)
                     Container(
                       margin: const EdgeInsets.only(left: Sizes.spaceSm),
                       padding: const EdgeInsets.symmetric(horizontal: Sizes.ssm, vertical: Sizes.xs),
@@ -91,7 +91,7 @@ class ItemList extends StatelessWidget {
                         color: AppColors.accent
                       ),
                       child: Text(
-                        '$promo Promotions Available',
+                        'Promotions Available',
                         style: Theme.of(context).textTheme.labelLarge?.copyWith(
                           color: AppColors.black,
                           fontWeight: FontWeight.w500,

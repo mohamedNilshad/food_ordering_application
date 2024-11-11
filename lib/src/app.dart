@@ -8,7 +8,6 @@ import 'package:foa/src/core/theme/theme.dart';
 import 'package:foa/src/core/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:foa/src/features/manu/presentation/providers/menu.provider.dart';
 import 'package:provider/provider.dart';
 
 class App extends StatefulWidget {
@@ -38,7 +37,6 @@ class _AppState extends State<App> {
 
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<MenuProvider>(create: (_) => MenuProvider()),
         ChangeNotifierProvider<LoadDataProvider>(create: (_) => LoadDataProvider()),
       ],
       child: BaseView<ThemeProvider>(

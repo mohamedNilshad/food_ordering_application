@@ -11,6 +11,8 @@ MetaData _$MetaDataFromJson(Map<String, dynamic> json) => MetaData(
       productName: json['ProductName'] as String?,
       unitChartID: json['UnitChartID'] as String?,
       unitChartName: json['UnitChartName'] as String?,
+      dealProductID: json['DealProductID'] as String?,
+      isDealProduct: json['IsDealProduct'] as bool?,
     );
 
 Map<String, dynamic> _$MetaDataToJson(MetaData instance) => <String, dynamic>{
@@ -18,4 +20,6 @@ Map<String, dynamic> _$MetaDataToJson(MetaData instance) => <String, dynamic>{
       'ProductName': instance.productName,
       'UnitChartID': instance.unitChartID,
       'UnitChartName': instance.unitChartName,
+      'DealProductID': instance.dealProductID,
+      'IsDealProduct': instance.isDealProduct,
     };

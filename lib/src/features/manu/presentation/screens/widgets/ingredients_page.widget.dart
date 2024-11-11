@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 class IngredientsPage extends StatefulWidget {
   final List<String> ingredientItems;
   final MenuItem menuItem;
+
   const IngredientsPage({
     super.key,
     required this.ingredientItems,
@@ -28,19 +29,26 @@ class _IngredientsPageState extends State<IngredientsPage> {
   final TextEditingController _controller = TextEditingController();
   late final MenuItem menuItem;
   List<ModifierGroups> modifierGroup = [];
-
+  double price = 0;
+  double pricePerItem = 0;
+  int quantity = 1;
   int itemLength = 5;
   late double screenWidth;
   bool loadingGroup = false;
-  int _counter = 1;
 
   void _increaseCounter() {
-    setState(() => _counter++);
+    setState(() {
+      quantity++;
+      price = pricePerItem * quantity;
+    });
   }
 
   void _decreaseCounter() {
     setState(() {
-      if (_counter > 1) _counter--;
+      if (quantity > 1) {
+        price = price - pricePerItem;
+        quantity--;
+      }
     });
   }
 
@@ -51,6 +59,8 @@ class _IngredientsPageState extends State<IngredientsPage> {
     try {
       setState(()  {
         menuItem = widget.menuItem;
+        pricePerItem = menuItem.priceInfo!.price!.tablePrice!.toDouble();
+        price = pricePerItem;
 
         modifierGroup = context.read<LoadDataProvider>().res!.modifierGroups!
             .where((modifyGroup) =>
@@ -93,9 +103,17 @@ class _IngredientsPageState extends State<IngredientsPage> {
           const SizedBox(height: Sizes.lg),
           const Divider(),
           const SizedBox(height: Sizes.spaceBtwItems),
-          modifierGroup.isEmpty ? const SizedBox() : ModifierList(modifierGroups: modifierGroup),
+          modifierGroup.isEmpty ? const SizedBox() :
+          ModifierList(
+            modifierGroups: modifierGroup,
+            onChanged: (double addOnPrice, bool isIncreased){
+              setState(() {
+                isIncreased ? pricePerItem += addOnPrice : pricePerItem = pricePerItem - addOnPrice;
+                price = pricePerItem * quantity;
+              });
+            }
+          ),
           const SizedBox(height: Sizes.spaceBtwItems),
-          const Divider(color: Colors.red,),
           Text(
             AppStrings.addCommentsLabel,
             style: Theme.of(context).textTheme.titleSmall,
@@ -124,19 +142,24 @@ class _IngredientsPageState extends State<IngredientsPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CCounterButton(
-                count: _counter,
+                count: price,
+                quantity: quantity,
                 onIncrease: _increaseCounter,
                 onDecrease: _decreaseCounter,
               ),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: Sizes.lg, vertical: Sizes.md),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(Sizes.borderRadiusMd)
-                  )
+              const SizedBox(width: Sizes.defaultSpace),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: Sizes.lg, vertical: Sizes.md),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(Sizes.borderRadiusMd)
+                    ),
+                    textStyle: const TextStyle(overflow: TextOverflow.ellipsis)
+                  ),
+                  child: Text('Add to Cart  ${HelperFunctions.formatCurrency(price)}', maxLines: 1,),
                 ),
-                child: const Text('Add to Cart  ₹1260'),
               ),
             ],
           ),

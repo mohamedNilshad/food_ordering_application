@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:foa/src/core/constants/app_colors.dart';
 import 'package:foa/src/core/constants/sizes.dart';
+import 'package:foa/src/core/domain/entities/Items/menu_item.entity.dart';
 import 'package:foa/src/core/domain/entities/modifier_groups/modifier_groups.entity.dart';
 import 'package:foa/src/core/domain/entities/modifier_groups/modifier_options.entity.dart';
 import 'package:foa/src/core/presentation/widgets/custom_counter_button_mini.widget.dart';
+import 'package:foa/src/core/provider/load_data.provider.dart';
+import 'package:provider/provider.dart';
 
 class ModifierList extends StatefulWidget {
   final List<ModifierGroups> modifierGroups;
+  final Function(double, bool) onChanged;
   const ModifierList({
     super.key,
     required this.modifierGroups,
+    required this.onChanged,
   });
 
   @override
@@ -18,22 +23,68 @@ class ModifierList extends StatefulWidget {
 
 class _ModifierListState extends State<ModifierList> {
   late final List<ModifierGroups> _modifierGroups;
+  late final List<MenuItem> _menuItem;
+  List<List<Map<String, dynamic>>> quantityItem = [];
 
-  int _counter = 1;
+  List<List<ModifierOptions>> options = [];
 
-  void _increaseCounter() {
-    setState(() => _counter++);
+  void _increaseCounter(int index, int i) {
+    setState(() {
+      quantityItem[index][i]['itemQty']++;
+      widget.onChanged(
+        quantityItem[index][i]['itemPrice'],
+        true
+      );
+    });
   }
 
-  void _decreaseCounter() {
+  void _decreaseCounter(int index, int i) {
     setState(() {
-      if (_counter > 1) _counter--;
+      if(quantityItem[index][i]['itemQty']>0) {
+        quantityItem[index][i]['itemQty']--;
+        widget.onChanged(
+          quantityItem[index][i]['itemPrice'],
+          false,
+        );
+      }
+
     });
+  }
+
+  void setData(){
+    _modifierGroups = widget.modifierGroups;
+    _menuItem = context.read<LoadDataProvider>().res!.items!;
+    options = [];
+    quantityItem = [];
+
+    for (int i = 0; i < _modifierGroups.length; i++) {
+      if (_modifierGroups[i].modifierOptions != null) {
+        options.add(_modifierGroups[i].modifierOptions!);
+      }
+    }
+
+    for (int i = 0; i < options.length; i++) {
+      List<Map<String, dynamic>> innerList = [];
+
+      for (int j = 0; j < options[i].length; j++) {
+        MenuItem? item = _menuItem.firstWhere(
+              (item) => item.menuItemID == options[i][j].id!,
+          orElse: () => MenuItem.fromJson(const {}),
+        );
+
+        innerList.add({
+          "itemName": item.title?.en ?? '',
+          "itemPrice": item.priceInfo?.price?.tablePrice?.toDouble() ?? 0.0,
+          "itemQty": 0,
+        });
+      }
+      quantityItem.add(innerList);
+    }
   }
 
   @override
   void initState() {
-    _modifierGroups = widget.modifierGroups;
+    setData();
     super.initState();
   }
   @override
@@ -46,13 +97,12 @@ class _ModifierListState extends State<ModifierList> {
           itemCount: _modifierGroups.length,
           shrinkWrap: true,
           itemBuilder: (context, index) {
-            String displayType = _modifierGroups[index].displayType!;
-            List<ModifierOptions> options = _modifierGroups[index].modifierOptions!;
+            // List<ModifierOptions> options = _modifierGroups[index].modifierOptions!;
 
             return Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Sizes.sm),
-                border: Border.all(color: AppColors.darkGrey)
+                  borderRadius: BorderRadius.circular(Sizes.sm),
+                  border: Border.all(color: AppColors.darkGrey)
               ),
               padding: const EdgeInsets.all(Sizes.sm),
               child: Column(
@@ -66,14 +116,20 @@ class _ModifierListState extends State<ModifierList> {
                   const SizedBox(height: Sizes.md),
                   ListView.builder(
                       physics: const ScrollPhysics(),
-                      itemCount: options.length,
+                      itemCount: quantityItem[index].length,
                       shrinkWrap: true,
                       itemBuilder: (context, i)  {
-                      return _buildItemAddon(
-                        title: options[i].id!.split('-').last,
-                        counter: _counter,
-                      );
-                    }
+                        if(quantityItem[index][i]['itemName'] != '') {
+                          return _buildItemAddon(
+                            index: index,
+                            innerIndex: i,
+                            title: quantityItem[index][i]['itemName'],
+                            price: quantityItem[index][i]['itemPrice'],
+                            quantity: quantityItem[index][i]['itemQty'],
+                          );
+                        }
+                        return const SizedBox();
+                      }
                   ),
                 ],
               ),
@@ -90,7 +146,7 @@ class _ModifierListState extends State<ModifierList> {
     );
   }
 
-  Widget _buildItemAddon({required String title, required int counter}){
+  Widget _buildItemAddon({required String title, required double price, required int quantity, required int index, required int innerIndex}){
     return Padding(
       padding: const EdgeInsets.only(bottom: Sizes.sm),
       child: Row(
@@ -98,9 +154,11 @@ class _ModifierListState extends State<ModifierList> {
         children: [
           Flexible(child: Text(title, style: Theme.of(context).textTheme.bodyLarge)),
           CounterButtonMiniWidget(
-            counter: _counter,
-            onIncrease: _increaseCounter,
-            onDecrease: _decreaseCounter,
+            quantity: quantity,
+            onIncrease: () {
+                _increaseCounter(index, innerIndex);
+              },
+            onDecrease: () =>_decreaseCounter(index, innerIndex),
           ),
         ],
       ),
