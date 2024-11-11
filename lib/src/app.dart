@@ -50,7 +50,7 @@ class _AppState extends State<App> {
                     title: 'Food Ordering Application',
                     theme: AppTheme.lightTheme,
                     darkTheme: AppTheme.darkTheme,
-                    themeMode: provider.themeMode,
+                    themeMode: ThemeMode.light,//provider.themeMode,
                     initialRoute: RouteConstants.splashScreen,
                     onGenerateRoute: AppRouter.onGenerateRoute,
                   );
