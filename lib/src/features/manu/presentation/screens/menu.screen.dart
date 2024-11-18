@@ -1,16 +1,20 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foa/src/core/constants/app_colors.dart';
 import 'package:foa/src/core/constants/icon_strings.dart';
 import 'package:foa/src/core/constants/image_strings.dart';
 import 'package:foa/src/core/constants/sizes.dart';
 import 'package:foa/src/core/presentation/widgets/custom_tab_bar.widget.dart';
+import 'package:foa/src/core/router/route.constants.dart';
 import 'package:foa/src/core/utils/helpers/helper_functions.dart';
 import 'package:foa/src/features/manu/presentation/screens/widgets/delivery_page.widget.dart';
 import 'package:foa/src/features/manu/presentation/screens/widgets/restaurant_page.widget.dart';
 import 'package:foa/src/features/manu/presentation/screens/widgets/takeaway_page.widget.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final String? userName;
+  const HomeScreen({super.key, this.userName='Guest'});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -65,6 +69,28 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(widget.userName ?? 'Guest', style: Theme.of(context).textTheme.titleLarge),
+          actions: [
+            IconButton(
+              onPressed: ()async{
+                if(widget.userName == 'Guest'){
+                  Future.microtask(() => Navigator.pushNamedAndRemoveUntil(
+                    context, RouteConstants.splashScreen, (route) => false,
+                  ));
+                }else{
+                  await GoogleSignIn().signOut();
+                  FirebaseAuth.instance.signOut();
+                  Future.microtask(() => Navigator.pushNamedAndRemoveUntil(
+                    context, RouteConstants.splashScreen, (route) => false,
+                  ));
+                }
+              },
+              icon: const Icon(Icons.power_settings_new),
+            ),
+          ],
+        ),
         body: SingleChildScrollView(
           physics: const ScrollPhysics(),
           child: Column(

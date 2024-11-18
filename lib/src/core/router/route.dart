@@ -20,7 +20,8 @@ class AppRouter {
         return MaterialPageRoute(
           settings: const RouteSettings(name: RouteConstants.menuScreen),
           builder: (context) {
-            return const HomeScreen();
+            final String userName = settings.arguments as String;
+            return HomeScreen(userName: userName);
           },
         );
     }
